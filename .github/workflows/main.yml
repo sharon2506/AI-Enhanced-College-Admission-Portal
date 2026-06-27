@@ -1,0 +1,26 @@
+name: Website Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  website-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Verify HTML File Exists
+        run: |
+          if [ -f "index.html" ]; then
+            echo "Website file found."
+          else
+            echo "index.html not found!"
+            exit 1
+          fi
+
+      - name: Pipeline Completed
+        run: echo "AI Admission Portal checked successfully."
