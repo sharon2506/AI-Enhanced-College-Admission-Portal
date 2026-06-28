@@ -12,15 +12,33 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
 
       - name: Verify HTML File Exists
         run: |
           if [ -f "index.html" ]; then
-            echo "Website file found."
+            echo "✅ index.html found — website file verified."
           else
-            echo "index.html not found!"
+            echo "❌ index.html not found!"
             exit 1
           fi
 
+      - name: Check HTML is not empty
+        run: |
+          size=$(wc -c < index.html)
+          echo "File size: $size bytes"
+          if [ "$size" -lt 100 ]; then
+            echo "❌ index.html seems too small or empty!"
+            exit 1
+          else
+            echo "✅ index.html looks good ($size bytes)"
+          fi
+
       - name: Pipeline Completed
-        run: echo "AI Admission Portal checked successfully."
+        run: echo "🎓 NIET Kochi AI Admission Portal checked successfully."
